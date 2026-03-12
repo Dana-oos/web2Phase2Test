@@ -1,0 +1,155 @@
+/*body
+{
+background-color:  #c1f9ca;
+}*/
+
+body{
+   background: linear-gradient(
+    135deg,
+    #f6f9f0 0%,
+    #e9f0d6 35%,
+    #d9e6b8 70%,
+    #c6d89a 100%
+  );
+
+}
+
+
+
+
+
+
+.site-footer {
+  background-color: #F5F5DC;             
+  border: 1px solid #ddd;                
+  border-radius: 12px;                  
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 30px 40px;
+  margin: 40px auto 20px;
+  width: min(1100px, 95%);               
+}
+
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+.footer-left, .footer-center, .footer-right {
+  flex: 1;
+  min-width: 250px;
+  text-align: center;
+}
+
+.footer-left h3, .footer-right h3 {
+  font-size: 18px;
+  color: #c5a572;   margin-bottom: 8px;
+}
+
+.footer-left p, .footer-center p, .footer-right p {
+  color: #333;
+  font-size: 14px;
+  margin: 4px 0;
+  
+}
+
+.footer-center p {
+  font-weight: 500;
+  color: #555;
+}
+
+
+.site-header {
+  background: #F5F5DC;            
+  border: 1px solid #ddd;           
+  border-radius: 12px;              
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);  
+  margin: 16px auto;               
+  width: min(1100px, 95%);         
+  padding:  0;                  
+}
+.nav {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+    gap: 20px;
+     padding: 0 20px;            
+  
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 2px;             
+  min-width: 15px;
+  white-space: nowrap;    
+}
+
+.logo-area img {
+  width: 190px;
+  height: auto;
+  flex-shrink: 0; 
+}
+
+.site-name {
+  font-size: 1.4rem;
+font-family: 'Playfair Display', serif;
+font-weight: 700;
+letter-spacing: 0.5px;  color: #1e1e1e;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  line-height: 1;          
+}
+
+.site-name .black {
+  color: #1e1e1e; 
+}
+
+.site-name .gold {
+  color: #C5A572; 
+  margin-left: 4px; 
+}
+
+.social-icons img {
+  width: 26px;
+  margin: 0 6px;
+  filter: grayscale(40%);
+  transition: 0.3s ease;
+}
+
+.social-icons img:hover {
+  filter: none;
+  transform: scale(1.15);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-actions input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  outline: none;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: #ddd;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+ #VMstatement{
+font-family: serif;
+color: #556B2F;
+    }

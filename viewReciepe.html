@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe - Banana Pancake</title>
+  <link rel="stylesheet" href="stylesheet.css" />
+
+  <style>
+    
+    .title-with-lines{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-weight: 600;
+      color: #228B22;
+      margin: 30px 0 14px;
+    }
+    .title-with-lines::before,
+    .title-with-lines::after{
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #228B22;
+      height: 0;
+    }
+
+    
+    .feedbackIcons{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin: 10px 0 16px;
+    }
+    .feedbackIcons img{
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+    .feedbackIcons img:hover{
+      transform: scale(1.12);
+    }
+
+    .recipe-media{
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 26px;
+    }
+    #recipeimg{
+      width: 360px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      transition: 0.25s ease;
+    }
+    #recipeimg:hover{
+      transform: scale(1.03);
+    }
+
+   
+    .recipe-page{
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 28px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      backdrop-filter: blur(6px);
+    }
+
+
+    .section-card{
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      margin-bottom: 26px;
+    }
+
+    .section-title{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0 14px;
+      color: #2e7d32;
+    }
+
+    
+    .section-title::before{
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #2e7d32;
+      flex: 0 0 10px;
+    }
+
+    #RecipeDetails,#recipeIng,#recipeInst{
+      font-family:"Georgia", serif;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    #recipeIng{
+      padding-left: 22px;
+      margin: 0;
+    }
+    #recipeIng li{
+      margin: 8px 0;
+    }
+
+    #recipeInst{
+      padding-left: 0;
+      margin: 0;
+      list-style-position: inside;
+    }
+    #recipeInst li{
+      margin: 14px 0;
+      padding: 14px 14px;
+      border-radius: 14px;
+      background: rgba(46,125,50,0.06);
+      border: 1px solid rgba(46,125,50,0.15);
+      line-height: 1.7;
+    }
+
+    video{
+      display: block;
+      margin: 8px auto 8px;
+      border-radius: 12px;
+    }
+
+    #recipeCreator{
+      height: 400px;
+      width: 300px;
+      display: block;
+      margin: 10px auto 0;
+      border-radius: 16px;
+      transition: 0.25s ease;
+    }
+    #recipeCreator:hover{
+      transform: scale(1.03);
+    }
+    #creatore-name{
+      text-align: center;
+      font-size: 200%;
+      font-style: sans-serif;
+      margin: 12px 0 6px;
+    }
+
+   
+    .reviews{
+      text-align: center;
+      padding: 60px 15px;
+      background: #fff;
+      border-radius: 20px;
+      width: min(1100px, 95%);
+      margin: 50px auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .reviews h2{
+      font-size: 2rem;
+      color: #1e1e1e;
+      margin-bottom: 6px;
+    }
+    .reviews p{
+      color: #666;
+      margin-bottom: 26px;
+      font-size: 1rem;
+    }
+
+   
+    .comment-panel{
+      max-width: 900px;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+    .comment-row{
+      display: flex;
+      gap: 12px;
+    }
+    .comment-panel input,
+    .comment-panel textarea{
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.15);
+      outline: none;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.95);
+    }
+    .comment-btn{
+      width: fit-content;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      background: #2e7d32;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+    .comment-btn:hover{
+      transform: translateY(-2px);
+    }
+
+    
+    .reviews-grid{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .review-card{
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 20px 28px;
+      width: 100%;
+      transition: 0.25s ease;
+      text-align: left;
+    }
+    .review-text{
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .review-footer{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+    }
+    .client-name{
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #000;
+    }
+    .review-date{
+      font-size: 0.85rem;
+      color:#666;
+      font-weight:500;
+      white-space: nowrap;
+    }
+
+    /*==========breadcrumbs=======*/
+.breadcrumb {
+  padding: 1px 16px 5px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+.breadcrumb a {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a color to all links inside the list */
+.breadcrumb  a {
+  color: #556B2F;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+.breadcrumb  a:hover {
+  color: #445625;
+  text-decoration: underline;
+}
+  </style>
+</head>
+
+<body>
+<header class="site-header">
+        <div class="container nav">
+            <div class="logo-area">
+                 <img src="logoremoved.png" alt="Nourish logo">
+              
+            <p id ='VMstatement'><em>Healthy never tasted this fun...</em>  </p>
+            </div>
+
+
+            <nav class="main-nav" aria-label="Primary"> </nav>
+
+             <div class="nav-actions">
+                 <input id="site-search" type="search" placeholder="Search…" >
+                 <a class="avatar" href="#" aria-label="Profile">
+                 <span aria-hidden="true">👤</span>
+                 </a>
+             </div>
+        </div>
+        <nav class="breadcrumb">
+  <a href="my-recipes.html">↩</a>
+      </nav>
+    </header>
+  <h1 class="title-with-lines"><em>Banana pancake</em></h1>
+
+  <div class="feedbackIcons">
+    <img src="like2.png" alt="like recipe icon">
+    <img src="favorite2.png" alt="add to favourite icon">
+    <img src="report2.png" alt="report a recipe">
+  </div>
+
+  <div class="recipe-media">
+    <img src="pancake.jpeg" alt="Recipe photo" id="recipeimg">
+  </div>
+
+  <div class="recipe-page">
+    <div class="section-card">
+      <h2 class="section-title"><em>Recipe's Details</em></h2>
+      <p id="RecipeDetails">
+        Category: Gluten-free <br><br>
+        Description: these 3 ingredient banana pancakes are quick, healthy and ready in minutes!
+        <br>
+        they are perfect for busy mornings, toddlers or meal prep. on top of that it's vegan, gluten-free, naturally sweetened
+        and oil-free!
+      </p>
+    </div>
+
+    <div class="section-card">
+      <h2 class="section-title"><em>Recipe's ingredients</em></h2>
+      <ul id="recipeIng">
+        <li>1 Banana</li>
+        <li>3/4 cup of Oats</li>
+        <li>1/2 cup of Non-Dairy Milk</li>
+        <li>Blueberries (quantity is based on your preference)</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h2 class="section-title"><em>Recipe's instructions</em></h2>
+      <ol id="recipeInst">
+        <li>First <b>blend the ingredients:</b> Add the banana, oats, and non-dairy milk to a blender...</li>
+        <li><b>Cook the Pancakes:</b> Heat a non-stick skillet over medium-low heat...</li>
+        <li><b>Flip & Finish:</b> Flip the pancakes and cook for another 1–2 minutes...</li>
+      </ol>
+    </div>
+
+    <div class="section-card">
+      <h2 class="section-title"><em>Recipe's video</em></h2>
+      <video src="recipe.mp4" width="550" height="450" poster="thumbnail.png" controls></video>
+    </div>
+
+    <div class="section-card">
+      <h2 class="section-title"><em>Recipe's creator</em></h2>
+      <img src="creatorPic.png" alt="Recipe's creator picture" id="recipeCreator">
+      <p id="creatore-name">Megan</p>
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <section class="reviews" id="comments">
+    <h2>Comments</h2>
+    <p>we would love to hear about your experience!</p>
+
+    <div class="comment-panel">
+      <div class="comment-row">
+        <input id="commentName" type="text" placeholder="Your name">
+        <input id="commentDate" type="date">
+      </div>
+
+      <textarea id="commentText" rows="4" placeholder="Write your comment..."></textarea>
+
+      <button id="postCommentBtn" type="button" class="comment-btn">Post Comment</button>
+    </div>
+
+    <div class="reviews-grid" id="commentsBox">
+      <div class="review-card" data-date="2026-01-24">
+        <p class="review-text">
+          "these pancakes are one of the most delicious Non-Dairy recipes , if you haven't try them yet what are you waiting for?"
+        </p>
+        <div class="review-footer">
+          <span class="client-name">Sara Mohammed</span>
+          <span class="review-date">24-1-2026</span>
+        </div>
+      </div>
+
+      <div class="review-card" data-date="2026-01-19">
+        <p class="review-text">
+          "thanks for sharing the recipe! Looking forward to more healthy and tasty dishes."
+        </p>
+        <div class="review-footer">
+          <span class="client-name">Laila omar</span>
+          <span class="review-date">19-1-2026</span>
+        </div>
+      </div>
+
+      <div class="review-card" data-date="2026-01-09">
+        <p class="review-text">"Wow , it looks very tasty i need to try it ASAP."</p>
+        <div class="review-footer">
+          <span class="client-name">Haya Abdulaziz</span>
+          <span class="review-date">9-1-2026</span>
+        </div>
+      </div>
+
+      <div class="review-card" data-date="2026-01-03">
+        <p class="review-text">
+          "These banana pancakes have been at the top of my breakfast list for a while now.
+          They’re quick and easy to make, and they taste absolutely delicious!"
+        </p>
+        <div class="review-footer">
+          <span class="client-name">Amal Fahad</span>
+          <span class="review-date">3-1-2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>Contact Us</h3>
+      <p>📞 +966 565212266</p>
+      <p>✉️ info@Nourish.com</p>
+    </div>
+
+    <div class="footer-center">
+      <p>© 2026 Nourish All Rights Reserved.</p>
+    </div>
+
+    <div class="footer-right">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+           <a href="#"><img src="instagram.png" alt="Instagram"></a>
+        <a href="#"><img src="X.png" alt="X"></a>
+        <a href="#"><img src="facebook.png" alt="Facebook"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+   const nameInput = document.getElementById("commentName");
+const dateInput = document.getElementById("commentDate");
+const textInput = document.getElementById("commentText");
+const btn = document.getElementById("postCommentBtn");
+const box = document.getElementById("commentsBox");
+
+function formatDateDMY(dateStr){
+  const [y, m, d] = dateStr.split("-");
+  return `${parseInt(d,10)}-${parseInt(m,10)}-${y}`;
+}
+
+// ✅ NEWEST → OLDEST
+function sortNewestToOldest(){
+  const cards = Array.from(box.querySelectorAll(".review-card"));
+  cards.sort((a, b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+  cards.forEach(c => box.appendChild(c));
+}
+
+// sort preset comments on load
+sortNewestToOldest();
+
+// default date = today
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, "0");
+const dd = String(today.getDate()).padStart(2, "0");
+dateInput.value = `${yyyy}-${mm}-${dd}`;
+
+btn.addEventListener("click", () => {
+  const name = nameInput.value.trim();
+  const date = dateInput.value;
+  const text = textInput.value.trim();
+
+  if(!name || !date || !text){
+    alert("Please fill name, date, and comment.");
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "review-card";
+  card.dataset.date = date;
+
+  card.innerHTML = `
+    <p class="review-text">"${text}"</p>
+    <div class="review-footer">
+      <span class="client-name">${name}</span>
+      <span class="review-date">${formatDateDMY(date)}</span>
+    </div>
+  `;
+
+  box.appendChild(card);
+  sortNewestToOldest();   // ✅ newest goes to top
+  textInput.value = "";
+});
+
+  </script>
+
+</body>
+</html>

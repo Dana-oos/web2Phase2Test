@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nourish | Edit Recipe</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="stylesheet.css">
+
+<style>
+    body{
+  margin: 0;
+
+  background: linear-gradient(
+    135deg,
+    #f6f9f0 0%,
+    #e9f0d6 35%,
+    #d9e6b8 70%,
+    #c6d89a 100%
+  );
+
+  min-height: 100vh;
+}
+
+/*==========breadcrumbs=======*/
+.breadcrumb {
+  padding: 1px 16px 5px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+.breadcrumb a {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a color to all links inside the list */
+.breadcrumb  a {
+  color: #556B2F;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+.breadcrumb  a:hover {
+  color: #445625;
+  text-decoration: underline;
+}
+
+
+
+</style>
+</head>
+<body class="edit-page">
+<header class="site-header">
+        <div class="container nav">
+            <div class="logo-area">
+                 <img src="logoremoved.png" alt="Nourish logo">
+              
+            <p id ='VMstatement'><em>Healthy never tasted this fun...</em>  </p>
+            </div>
+
+
+            <nav class="main-nav" aria-label="Primary"> </nav>
+
+             <div class="nav-actions">
+                 <input id="site-search" type="search" placeholder="Search…" >
+                 <a class="avatar" href="#" aria-label="Profile">
+                 <span aria-hidden="true">👤</span>
+                 </a>
+             </div>
+        </div>
+<nav class="breadcrumb">
+  <a href="my-recipes.html">↩</a>
+      </nav>
+    </header>
+<main>
+<h1>Edit Recipe</h1>
+<form id="recipeForm">
+<label>Recipe Name *</label>
+<input type="text" value="Banana Pancakes" required>
+
+
+<label>Category *</label>
+<select required>
+<option selected>Gluten-Free</option>
+<option>Dairy-Free</option>
+<option>Sugar-Free</option>
+<option>keto</option>
+</select>
+
+
+<label>Description *</label>
+<textarea required>These 3-ingredient banana pancakes are quick, healthy, and ready in minutes. Made with oats, banana, and non-dairy milk, they’re perfect for busy mornings, toddlers, or meal prep!</textarea>
+
+
+<label>Photo *</label>
+<input type="file" accept=".jpg,.jpeg,.png,.webp">
+
+<div class="card">
+<label>Ingredients *</label>
+<div id="ingredientsList"></div>
+<button type="button" class="add-btn" onclick="addIngredient()">+ Add ingredient</button>
+</div>
+<div class="card">
+<label>Instructions *</label>
+<div id="instructionsList"></div>
+<button type="button" class="add-btn" onclick="addInstruction()">+ Add step</button>
+</div>
+
+<label>Video URL (optional)</label>
+<input type="url" value="https://youtu.be/uHP1C794L1k">
+
+
+<div class="actions">
+<button type="submit" class="btn btn-primary">Update Recipe</button>
+</div>
+</form>
+</main>
+    
+    <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>Contact Us</h3>
+      <p>📞 +966 565212266</p>
+      <p>✉️ info@Nourish.com</p>
+    </div>
+
+    <div class="footer-center">
+      <p>© 2026 Nourish All Rights Reserved.</p>
+    </div>
+
+    <div class="footer-right">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+           <a href="#"><img src="instagram.png" alt="Instagram"></a>
+        <a href="#"><img src="X.png" alt="X"></a>
+        <a href="#"><img src="facebook.png" alt="Facebook"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    
+    
+<script src="script.js"></script>
+</body>
+</html>

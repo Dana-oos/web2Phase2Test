@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nourish | My Recipes</title>
+<link rel="stylesheet" href="stylesheet.css">
+
+  <style>
+    :root {
+      --primary: #8FAE3B;
+      --secondary: #D9C7A0;
+      --dark: #2f3a1f;
+      --light: #f9faf7;
+      --border: #dfe5d4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--light);
+      color: var(--dark);
+    }
+
+    
+
+     .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+
+    .brand h1 {
+      margin: 0;
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .add-link {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      float: right;
+      margin-bottom: 0.6rem;
+    }
+
+    .add-link:hover {
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #f6f9f0;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead {
+      background: #dbe6c6;
+    }
+
+    th, td {
+      padding: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 700;
+    }
+
+    .recipe-link {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .recipe-link img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    ul li {
+      margin-bottom: 0.3rem;
+    }
+
+    .video-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .no-video {
+      color: #999;
+      font-style: italic;
+    }
+
+    .likes {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .action-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 0.4rem;
+    }
+
+    .action-link.delete {
+      color: #c94a4a;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      table {
+        font-size: 0.85rem;
+      }
+    }
+    body{
+  margin: 0;
+  background: linear-gradient(
+    135deg,
+    #f6f9f0 0%,
+    #e9f0d6 35%,
+    #d9e6b8 70%,
+    #c6d89a 100%
+  );
+
+  min-height: 100vh;
+}
+
+.recipe-card {
+  text-align: center;          
+}
+
+.recipe-card img {
+  width: 250px;                
+  height: 250px;
+  object-fit: cover;
+  border-radius: 16px;        
+  display: block;
+  margin: 0 auto 12px;
+}
+
+.recipe-card h3 {
+  font-size: 1.2rem;
+  color: #4b5d2a;             
+  margin: 0;
+}
+
+/*==========breadcrumbs=======*/
+ul.breadcrumb {
+  padding: 1px 16px 5px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: #556B2F;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+  color: #556B2F;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+  color: #445625;
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+        <div class="container nav">
+            <div class="logo-area">
+                 <img src="logoremoved.png" alt="Nourish logo">
+              
+            <p id ='VMstatement'><em>Healthy never tasted this fun...</em>  </p>
+            </div>
+
+
+            <nav class="main-nav" aria-label="Primary"> </nav>
+
+             <div class="nav-actions">
+                 <input id="site-search" type="search" placeholder="Search…" >
+                 <a class="avatar" href="#" aria-label="Profile">
+                 <span aria-hidden="true">👤</span>
+                 </a>
+             </div>
+        </div>
+        <nav>
+    <ul class="breadcrumb">
+  <li><a href="user.html">↩</a></li>
+</ul>
+  </nav>
+    </header>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+    <div class="brand"><h1>My Recipes</h1>
+    <a href="add-recipe.html" class="add-link">+ Add New Recipe</a>
+    </div>
+     
+    <table>
+      <thead>
+        <tr>
+          <th>Recipe</th>
+          <th>Ingredients</th>
+          <th>Instructions</th>
+          <th>Video</th>
+          <th>Likes</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <div class="recipe-card">
+            <a href="viewReciepe.html" class="recipe-link">
+              <img src="bananaPancakes.jpg" alt="Recipe photo">
+              Banana Pancakes
+            </a></div>
+          </td>
+          <td>
+            <ul>
+              <li>1 ripe banana</li>
+              <li>1 cup oats, rolled or quick oats, or oat flour</li>
+              <li>1 cup non-dairy milk</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Add the banana, oats, and non-dairy milk to a blender. Blend until smooth. If you're using add-ins (like cinnamon, chocolate chips, blueberries) add them in now.</li>
+              <li>Heat a large non-stick pan over medium-low heat. Once the pan is hot, pour the batter into small pancakes (about 1/4 cup each). Cook for 2–3 minutes, or until bubbles form on the surface and the edges start to set.</li>
+              <li>Flip the pancakes and cook for another 1–2 minutes, until golden brown. Serve warm with your favorite toppings. Enjoy!</li>
+            </ul>
+          </td>
+          <td>
+            <a href="https://youtu.be/uHP1C794L1k" class="video-link">Watch video</a>
+          </td>
+          <td class="likes">24</td>
+          <td>
+            <a href="edit-recipe.html" class="action-link">Edit</a>
+          </td>
+          <td>
+            <a href="my-recipes.html" class="action-link delete">Delete</a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+              <div class="recipe-card">
+            <a href="viewReciepe.html" class="recipe-link">
+              <img src="baklava.jpg" alt="Recipe photo">
+              Grilled Chicken Salad
+            </a></div>
+          </td>
+          <td>
+            <ul>
+              <li>½ cup quick oats</li>
+              <li>½ cup non-dairy milk</li>
+              <li>1 tablespoon honey</li>
+              <li>½ teaspoon cinnamon</li>
+              <li>½ teaspoon vanilla extract</li>
+              <li>1 tablespoon honey</li>
+
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Make the overnight oats: In a jar or small bowl, mix together the quick oats, non-dairy milk, honey (or maple syrup/agave), cinnamon, cardamom, and vanilla extract until combined.</li>
+              <li>Refrigerate overnight: Cover and place in the fridge for at least 4 hours, or overnight for the best texture.</li>
+              <li>Make the topping: In small bowl, mix together the chopped pistachios, chopped walnuts, a pinch of cinnamon, and honey (or maple syrup/agave) until the nuts are evenly coated.</li>
+              <li>Assemble and enjoy: Add a thick layer of yogurt on top of the oats, followed by the nut mixture. Finish with dried rose petals if using, and enjoy!</li>
+            </ul>
+          </td>
+          <td>
+            <span class="no-video">No video for recipe</span>
+          </td>
+          <td class="likes">11</td>
+          <td>
+            <a href="edit-recipe.html" class="action-link">Edit</a>
+          </td>
+          <td>
+            <a href="my-recipes.html" class="action-link delete">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  
+  
+  <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>Contact Us</h3>
+      <p>📞 +966 565212266</p>
+      <p>✉️ info@Nourish.com</p>
+    </div>
+
+    <div class="footer-center">
+      <p>© 2026 Nourish All Rights Reserved.</p>
+    </div>
+
+    <div class="footer-right">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+           <a href="#"><img src="instagram.png" alt="Instagram"></a>
+        <a href="#"><img src="X.png" alt="X"></a>
+        <a href="#"><img src="facebook.png" alt="Facebook"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
