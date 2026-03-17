@@ -213,6 +213,9 @@
     errorBox.textContent = "The entered email/password is not correct.";
     errorBox.style.display = "block";
   }
+  if (window.location.search.includes("error")){
+      window.history.replaceState({},document.title, window.location.pathname);
+  }
 </script>
 
 </body>
