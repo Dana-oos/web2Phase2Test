@@ -1,4 +1,5 @@
 
+
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -10,24 +11,19 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     exit();
 }
 
-// Database connection
 $conn = new mysqli("localhost", "root", "root", "nurish db");
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get form data
 $firstName = trim($_POST['firstName']);
 $lastName = trim($_POST['lastName']);
 $emailAddress = trim($_POST['emailAddress']);
 $password = $_POST['password'];
-
-// Default user type
 $userType = "user";
 
-// 1) Check if email already exists in user table
+// Check existing user
 $checkUser = $conn->prepare("SELECT id FROM user WHERE emailAddress = ?");
 if (!$checkUser) {
     die("Prepare failed for user check: " . $conn->error);
@@ -44,7 +40,7 @@ if ($checkUser->num_rows > 0) {
 }
 $checkUser->close();
 
-// 2) Check if email exists in blockeduser table
+// Check blocked user
 $checkBlocked = $conn->prepare("SELECT id FROM blockeduser WHERE emailAddress = ?");
 if (!$checkBlocked) {
     die("Prepare failed for blocked user check: " . $conn->error);
@@ -52,55 +48,65 @@ if (!$checkBlocked) {
 $checkBlocked->bind_param("s", $emailAddress);
 $checkBlocked->execute();
 $checkBlocked->store_result();
-
 if ($checkBlocked->num_rows > 0) {
     $checkBlocked->close();
     $conn->close();
     header("Location: signup.html?error=blocked");
     exit();
-    }
+}
 $checkBlocked->close();
 
-// 3) Hash password
+// Hash password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// 4) Handle photo upload
-$photoFileName = "default.png";
 
-if (isset($_FILES['photoFileName']) && $_FILES['photoFileName']['error'] === 0) {
-    $uploadDir = "uploads/";
+$tempPhotoName = "default.png";
 
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
-
-    $originalName = basename($_FILES['photoFileName']['name']);
-    $photoFileName = uniqid() . "_" . $originalName;
-    $targetFile = $uploadDir . $photoFileName;
-
-    if (!move_uploaded_file($_FILES['photoFileName']['tmp_name'], $targetFile)) {
-        die("Image upload failed.");
-    }
-}
-
-// 5) Insert user into database
 $insert = $conn->prepare("INSERT INTO user (userType, firstName, lastName, emailAddress, password, photoFileName) VALUES (?, ?, ?, ?, ?, ?)");
 if (!$insert) {
     die("Prepare failed for insert: " . $conn->error);
 }
-$insert->bind_param("ssssss", $userType, $firstName, $lastName, $emailAddress, $hashedPassword, $photoFileName);
+$insert->bind_param("ssssss", $userType, $firstName, $lastName, $emailAddress, $hashedPassword, $tempPhotoName);
 
 if ($insert->execute()) {
     $newUserId = $insert->insert_id;
 
-    // 6) Save session variables
+    $photoFileName = "default.png";
+   
+    if (isset($_FILES['photoFileName']) && $_FILES['photoFileName']['error'] === 0 && !empty($_FILES['photoFileName']['name'])) {
+        $uploadDir = "uploads/";
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $originalName = $_FILES['photoFileName']['name'];
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+
+       
+        $photoFileName = "user_" . $newUserId . "." . $extension;
+
+        $targetFile = $uploadDir . $photoFileName;
+
+        if (move_uploaded_file($_FILES['photoFileName']['tmp_name'], $targetFile)) {
+          
+            $updatePhoto = $conn->prepare("UPDATE user SET photoFileName = ? WHERE id = ?");
+            if (!$updatePhoto) {
+                die("Prepare failed for update: " . $conn->error);
+            }
+            $updatePhoto->bind_param("si", $photoFileName, $newUserId);
+            $updatePhoto->execute();
+            $updatePhoto->close();
+        }
+    }
+
     $_SESSION['id'] = $newUserId;
     $_SESSION['userType'] = $userType;
 
     $insert->close();
     $conn->close();
 
-    // 7) Redirect to user's page
+   // later change it to user.php
     header("Location: user.html");
     exit();
 } else {
@@ -109,4 +115,5 @@ if ($insert->execute()) {
 
 $insert->close();
 $conn->close();
+//testtest
 ?>
