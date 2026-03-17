@@ -116,31 +116,45 @@
     .form-links a:hover {
       text-decoration: underline;
     }
-
+    
+    .error-message{
+  color:#b30000;
+  background:#ffe6e6;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+  margin-bottom:15px;
+  font-weight:bold;
+}
+   
   </style>
 </header>
 
+<!-- i added the name attribute to the form -->
 <!-- Signup Form -->
 <div class="form-box">
 
   <h2>Create Account</h2>
-
-  <form action="user.html">
+  <!<!-- ======== -->
+  <div id="error-message" class="error-message" style="display:none;"></div>
+  
+  <!-- the enctype part is for the uploded photo -->
+  <form action="SignUp.php" method="POST" enctype="multipart/form-data">
 
     <label>First Name</label>
-    <input type="text" required>
+    <input type="text" name="firstName" required>
 
     <label>Last Name</label>
-    <input type="text" required>
+    <input type="text" name="lastName" required>
 
     <label>Email</label>
-    <input type="email" required>
+    <input type="email" name="emailAddress" required>
 
     <label>Password</label>
-    <input type="password" required>
+    <input type="password" name="password" required>
 
     <label>Profile Image (Optional)</label>
-    <input type="file" accept="image/*">
+    <input type="file" accept="image/*" name="photoFileName">
 
     <small>If no image is uploaded, a default photo will be used.</small>
 
@@ -187,6 +201,21 @@
   </div>
 
 </footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const error = params.get("error");
+  const errorBox = document.getElementById("error-message");
+
+  if (error === "exists") {
+    errorBox.textContent = "This email is already registered. Try again.";
+    errorBox.style.display = "block";
+  } 
+  else if (error === "blocked") {
+    errorBox.textContent = "This email is blocked. Try again.";
+    errorBox.style.display = "block";
+  }
+</script>
 
 </body>
 </html>
