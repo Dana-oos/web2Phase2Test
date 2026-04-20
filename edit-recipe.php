@@ -119,9 +119,6 @@ $cat_result = $conn->query("SELECT * FROM recipecategory");
                 </a>
             </div>
         </div>
-        <nav class="breadcrumb">
-            <a href="my-recipes.php">↩</a>
-        </nav>
     </header>
 
     <main>
