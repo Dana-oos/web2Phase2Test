@@ -46,7 +46,7 @@ if ($result->num_rows === 0) {
 $existing = $result->fetch_assoc();
 $check->close();
 
-// Handle photo  (replace if new file uploaded, otherwise keep existing)
+// Handle photo (replace if new file uploaded, otherwise keep existing)
 if (!empty($_FILES['photo']['name'])) {
     $photoFileName = basename($_FILES['photo']['name']);
     $uploadDir     = "uploads/";
@@ -60,6 +60,15 @@ if (!empty($_FILES['photo']['name'])) {
     if (!move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
         die("❌ Image upload failed. Check uploads/ folder permissions.");
     }
+
+    // Delete the old photo file from the server if it's different from the new one
+    if (!empty($existing['photoFileName']) && $existing['photoFileName'] !== $photoFileName) {
+        $oldPhoto = "uploads/" . $existing['photoFileName'];
+        if (file_exists($oldPhoto)) {
+            unlink($oldPhoto);
+        }
+    }
+
 } else {
     // Keep existing photo
     $photoFileName = $existing['photoFileName'];
@@ -70,6 +79,13 @@ if (!empty($video)) {
     $videoFilePath = $video;
 } else {
     $videoFilePath = $existing['videoFilePath'];
+}
+
+// If video field is empty, clear it. If filled, update it.
+if ($video !== '') {
+    $videoFilePath = $video;
+} else {
+    $videoFilePath = ''; // clear the video URL
 }
 
 // Update recipe
