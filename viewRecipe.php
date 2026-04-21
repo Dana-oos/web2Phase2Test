@@ -169,7 +169,16 @@ if ($showButtons) {
       line-height: 1.7;
     }
 
-    video { display: block; margin: 8px auto; border-radius: 12px; }
+    .video-link {
+      color: #8FAE3B;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .no-video {
+      color: #999;
+      font-style: italic;
+    }
 
     #recipeCreator {
       height: 400px; width: 300px; display: block;
@@ -241,9 +250,7 @@ if ($showButtons) {
       <a class="avatar" href="#" aria-label="Profile"><span aria-hidden="true">👤</span></a>
     </div>
   </div>
-  <nav class="breadcrumb">
-    <a href="my-recipes.php">↩</a>
-  </nav>
+  
 </header>
 
 <h1 class="title-with-lines"><em><?= htmlspecialchars($recipe['name']) ?></em></h1>
@@ -322,8 +329,12 @@ if ($showButtons) {
   <?php if (!empty($recipe['videoFilePath'])): ?>
   <div class="section-card">
     <h2 class="section-title"><em>Recipe's video</em></h2>
-    <video src="<?= htmlspecialchars($recipe['videoFilePath']) ?>"
-           width="550" height="450" poster="thumbnail.png" controls></video>
+    <?php if (!empty($recipe['videoFilePath'])): ?>
+                  <a href="<?= htmlspecialchars($recipe['videoFilePath']) ?>"
+                     target="_blank" class="video-link">Watch video</a>
+                <?php else: ?>
+                  <span class="no-video">No video</span>
+                <?php endif; ?>
   </div>
   <?php endif; ?>
 
