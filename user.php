@@ -4,7 +4,7 @@ session_start();
 $host = "localhost";
 $username = "root";
 $password = "root";
-$database = "nurish db"; 
+$database = "nurish_db"; 
 
 $conn = new mysqli($host, $username, $password, $database);
 
@@ -488,31 +488,35 @@ margin:0;
 </div>
 
 <!-- Favourite -->
-<div class="card fav">
+<div class="card fav" id="fav-section">
 <h3>My Favourite Recipes ❤️</h3>
 
 <?php if($fav && $fav->num_rows > 0){ ?>
     <?php while($f = $fav->fetch_assoc()){ ?>
-    <div class="fav-item">
 
-    <a href="viewRecipe.php?recipeID=<?php echo $f['id']; ?>">
-    <img src="uploads/<?php echo ($f['photoFileName']); ?>" alt="Favourite Recipe">
-    </a>
+    <div class="fav-item" id="fav-<?php echo $f['id']; ?>">
 
-    <div>
-    <h4>
-    <a href="viewRecipe.php?recipeID=<?php echo $f['id']; ?>">
-    <?php echo ($f['name']); ?>
-    </a>
-    </h4>
+        <a href="viewRecipe.php?id=<?php echo $f['id']; ?>">
+            <img src="uploads/<?php echo ($f['photoFileName']); ?>" alt="Favourite Recipe">
+        </a>
 
-    <form action="removeFavourite.php" method="POST" class="fav-form">
-        <input type="hidden" name="recipeID" value="<?php echo $f['id']; ?>">
-        <button type="submit" class="remove">Remove</button>
-    </form>
+        <div>
+            <h4>
+                <a href="viewRecipe.php?id=<?php echo $f['id']; ?>">
+                    <?php echo ($f['name']); ?>
+                </a>
+            </h4>
+
+            
+            <button type="button" class="remove"
+            onclick="removeFavourite(<?php echo $f['id']; ?>)">
+                Remove
+            </button>
+
+        </div>
+
     </div>
 
-    </div>
     <?php } ?>
 <?php } else { ?>
     <p class="empty-msg">No favourite recipes yet.</p>
@@ -625,6 +629,40 @@ $("#categoryFilter").change(function () {
         }
     });
 });
+
+
+function removeFavourite(recipeID){
+
+    let formData = new FormData();
+    formData.append("recipeID", recipeID);
+
+    fetch("removeFavourite.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(result => {
+
+        if(result.trim() === "true"){
+
+            let item = document.getElementById("fav-" + recipeID);
+            if(item){
+                item.remove();
+            }
+
+            // لو صارت فاضية
+            if(document.querySelectorAll("#fav-section .fav-item").length === 0){
+                document.getElementById("fav-section").innerHTML +=
+                "<p class='empty-msg'>No favourite recipes yet.</p>";
+            }
+
+        } else {
+            alert("Error removing favourite");
+        }
+
+    });
+}
+
 </script>
 
 </body>
