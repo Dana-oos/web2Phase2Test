@@ -5,38 +5,38 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    echo json_encode(['success' => false, 'message' => 'Not logged in']);
     exit();
 }
 
 $host     = "localhost";
 $user     = "root";
 $password = "root";
-$database = "nurish_db";
+$database = "nurish db";
 
 $conn = new mysqli($host, $user, $password, $database);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$user_id   = $_SESSION['id'];
-$recipe_id = intval($_GET['id'] ?? 0);
-
-if ($recipe_id === 0) {
-    header("Location: my-recipes.php");
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
     exit();
 }
 
-// Verify the recipe belongs to this user and get file info
-$stmt = $conn->prepare("SELECT photoFileName, videoFilePath FROM recipe WHERE id = ? AND userID = ?");
+$user_id   = $_SESSION['id'];
+$recipe_id = intval($_POST['id'] ?? 0);
+
+if ($recipe_id === 0) {
+    echo json_encode(['success' => false, 'message' => 'Invalid recipe ID']);
+    exit();
+}
+
+// Verify the recipe belongs to this user
+$stmt = $conn->prepare("SELECT photoFileName FROM recipe WHERE id = ? AND userID = ?");
 $stmt->bind_param("ii", $recipe_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    // Recipe not found or doesn't belong to this user
-    header("Location: my-recipes.php");
+    echo json_encode(['success' => false, 'message' => 'Recipe not found or unauthorized']);
     exit();
 }
 
@@ -62,7 +62,7 @@ if (!empty($recipe['videoFilePath'])) {
     }
 }
 
-// Delete all related records in  order
+// Delete all related records
 $conn->query("DELETE FROM likes        WHERE recipeID = $recipe_id");
 $conn->query("DELETE FROM favourites   WHERE recipeID = $recipe_id");
 $conn->query("DELETE FROM comment      WHERE recipeID = $recipe_id");
@@ -70,7 +70,7 @@ $conn->query("DELETE FROM report       WHERE recipeID = $recipe_id");
 $conn->query("DELETE FROM ingredients  WHERE recipeID = $recipe_id");
 $conn->query("DELETE FROM instructions WHERE recipeID = $recipe_id");
 
-//  delete the recipe itself
+// Delete the recipe itself
 $stmt = $conn->prepare("DELETE FROM recipe WHERE id = ? AND userID = ?");
 $stmt->bind_param("ii", $recipe_id, $user_id);
 $stmt->execute();
@@ -78,7 +78,7 @@ $stmt->close();
 
 $conn->close();
 
-// Redirect back to my recipes
-header("Location: my-recipes.php");
+// Return JSON response
+echo json_encode(['success' => true]);
 exit();
 ?>
