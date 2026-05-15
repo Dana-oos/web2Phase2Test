@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
 $host     = "localhost";
 $user     = "root";
 $password = "root";
-$database = "nurish_db";
+$database = "nurish db";
 
 $conn = new mysqli($host, $user, $password, $database);
 
@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 $user_id = $_SESSION['id'];
 
 
-// ─── bring all recipes that belongs to this user
+//  bring all recipes that belongs to this user
 $stmt = $conn->prepare("
     SELECT r.*,
            (SELECT COUNT(*) FROM likes WHERE recipeID = r.id) AS likeCount
@@ -195,6 +195,24 @@ $stmt->close();
       color: #445625;
       text-decoration: underline;
     }
+    .action-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+
+.action-link.delete { color: #c94a4a; }
+.action-link:hover { text-decoration: underline; }
+.delete-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
   </style>
 </head>
 <body>
@@ -213,11 +231,6 @@ $stmt->close();
         </a>
       </div>
     </div>
-    <nav>
-      <ul class="breadcrumb">
-        <li><a href="user.php">↩</a></li>
-      </ul>
-    </nav>
   </header>
 
   <main>
@@ -262,7 +275,7 @@ $stmt->close();
               <!-- Recipe name and photo -->
               <td>
                 <div class="recipe-card">
-                  <a href="view-recipe.php?id=<?= intval($recipe['id']) ?>" class="recipe-link">
+                  <a href="viewRecipe.php?id=<?= intval($recipe['id']) ?>" class="recipe-link">
                     <img src="uploads/<?= htmlspecialchars($recipe['photoFileName']) ?>"
                          alt="<?= htmlspecialchars($recipe['name']) ?>">
                     <?= htmlspecialchars($recipe['name']) ?>
@@ -318,14 +331,13 @@ $stmt->close();
                    class="action-link">Edit</a>
               </td>
 
-              <!-- Delete, separate delete-recipe.php -->
-              <td>
-                <a href="delete-recipe.php?id=<?= intval($recipe['id']) ?>"
-                   class="action-link delete"
-                   onclick="return confirm('Are you sure you want to delete this recipe? This cannot be undone.')">
-                  Delete
-                </a>
-              </td>
+              <!-- Delete -->
+               <td>
+                <button class="action-link delete delete-btn"
+                        data-id="<?= intval($recipe['id']) ?>">
+                 Delete
+                </button>
+               </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -355,5 +367,56 @@ $stmt->close();
     </div>
   </footer>
 
+    
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+$(document).ready(function () {
+
+    $(document).on('click', '.delete-btn', function () {
+
+        if (!confirm('Are you sure you want to delete this recipe? This cannot be undone.')) {
+            return;
+        }
+
+        var btn      = $(this);
+        var recipeId = btn.data('id');
+        var row      = btn.closest('tr');
+
+        $.ajax({
+            url:  'delete-recipe.php',
+            type: 'POST',
+            data: { id: recipeId },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success === true) {
+                    // Remove the row from the table without reloading
+                    row.fadeOut(400, function () {
+                        $(this).remove();
+
+                        // If no rows left, show empty message
+                        if ($('tbody tr').length === 0) {
+                            $('table').replaceWith(
+                                '<div class="no-recipes">' +
+                                '<p>You haven\'t added any recipes yet.</p>' +
+                                '<a href="add-recipe.php" class="add-link">+ Add Your First Recipe</a>' +
+                                '</div>'
+                            );
+                        }
+                    });
+                } else {
+                    alert('Could not delete recipe: ' + (response.message || 'Unknown error'));
+                }
+            },
+            error: function () {
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    });
+
+});
+</script>
+    
 </body>
 </html>
