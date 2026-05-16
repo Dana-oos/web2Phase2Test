@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
 $host     = "localhost";
 $user     = "root";
 $password = "root";
-$database = "nurish_db";
+$database = "nurish db";
 
 $conn = new mysqli($host, $user, $password, $database);
 
