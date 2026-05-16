@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$conn = new mysqli("localhost", "root", "root", "nurish_db");
+$conn = new mysqli("localhost", "root", "root", "nurish db");
 
 if (!isset($_SESSION['id']) || $_SESSION['userType'] !== 'user') {
     echo "false";
