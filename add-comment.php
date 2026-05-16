@@ -37,6 +37,6 @@ $stmt->bind_param("iis", $recipeID, $userID, $comment);
 $stmt->execute();
 $stmt->close();
 
-// c. Redirect back to the same recipe page
+
 header("Location: viewRecipe.php?id=$recipeID");
 exit();
