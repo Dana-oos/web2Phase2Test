@@ -630,37 +630,30 @@ $("#categoryFilter").change(function () {
     });
 });
 
-
 function removeFavourite(recipeID){
 
-    let formData = new FormData();
-    formData.append("recipeID", recipeID);
+    $.ajax({
+        url: "removeFavourite.php",
+        type: "POST",
+        data: { recipeID: recipeID },
+        success: function(result){
 
-    fetch("removeFavourite.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.text())
-    .then(result => {
+            if(result.trim() === "true"){
 
-        if(result.trim() === "true"){
+                $("#fav-" + recipeID).remove();
 
-            let item = document.getElementById("fav-" + recipeID);
-            if(item){
-                item.remove();
+                if($("#fav-section .fav-item").length === 0){
+                    $("#fav-section").append(
+                        "<p class='empty-msg'>No favourite recipes yet.</p>"
+                    );
+                }
+
+            } else {
+                alert("Error removing favourite");
             }
-
-            // لو صارت فاضية
-            if(document.querySelectorAll("#fav-section .fav-item").length === 0){
-                document.getElementById("fav-section").innerHTML +=
-                "<p class='empty-msg'>No favourite recipes yet.</p>";
-            }
-
-        } else {
-            alert("Error removing favourite");
         }
-
     });
+
 }
 
 </script>
