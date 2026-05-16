@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $host     = "localhost";
 $user     = "root";
 $password = "root";
-$database = "nurish_db";
+$database = "nurish db";
 
 $conn = new mysqli($host, $user, $password, $database);
 
