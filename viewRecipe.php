@@ -235,6 +235,7 @@ if ($showButtons) {
     .breadcrumb a { display: inline; font-size: 18px; color: #556B2F; text-decoration: none; }
     .breadcrumb a:hover { color: #445625; text-decoration: underline; }
   </style>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
@@ -259,34 +260,67 @@ if ($showButtons) {
 <?php if ($showButtons): ?>
 <div class="feedbackIcons">
 
-  <!-- LIKE -->
-  <?php if ($alreadyLiked): ?>
-    <img src="like2.png" alt="like recipe icon" class="disabled" title="Already liked">
-  <?php else: ?>
-    <a href="add-like.php?recipeID=<?= $recipeID ?>">
-      <img src="like2.png" alt="like recipe icon" title="Like this recipe">
-    </a>
-  <?php endif; ?>
+    <!-- LIKE -->
+    <img src="like2.png" alt="like recipe icon"
+         id="btn-like"
+         class="<?= $alreadyLiked ? 'disabled' : '' ?>"
+         title="<?= $alreadyLiked ? 'Already liked' : 'Like this recipe' ?>"
+         data-recipe="<?= $recipeID ?>">
 
-  <!-- FAVOURITE -->
-  <?php if ($alreadyFavourited): ?>
-    <img src="favorite2.png" alt="add to favourite icon" class="disabled" title="Already in favourites">
-  <?php else: ?>
-    <a href="add-favourite.php?recipeID=<?= $recipeID ?>">
-      <img src="favorite2.png" alt="add to favourite icon" title="Add to favourites">
-    </a>
-  <?php endif; ?>
+    <!-- FAVOURITE -->
+    <img src="favorite2.png" alt="add to favourite icon"
+         id="btn-favourite"
+         class="<?= $alreadyFavourited ? 'disabled' : '' ?>"
+         title="<?= $alreadyFavourited ? 'Already in favourites' : 'Add to favourites' ?>"
+         data-recipe="<?= $recipeID ?>">
 
-  <!-- REPORT -->
-  <?php if ($alreadyReported): ?>
-    <img src="report2.png" alt="report a recipe" class="disabled" title="Already reported">
-  <?php else: ?>
-    <a href="add-report.php?recipeID=<?= $recipeID ?>">
-      <img src="report2.png" alt="report a recipe" title="Report this recipe">
-    </a>
-  <?php endif; ?>
+    <!-- REPORT -->
+    <img src="report2.png" alt="report a recipe"
+         id="btn-report"
+         class="<?= $alreadyReported ? 'disabled' : '' ?>"
+         title="<?= $alreadyReported ? 'Already reported' : 'Report this recipe' ?>"
+         data-recipe="<?= $recipeID ?>">
 
 </div>
+
+
+<script>
+function sendAjax(buttonID, phpFile) {
+    var recipeID = $(buttonID).data('recipe');
+
+    $.ajax({
+        type: "POST",
+        url: phpFile,
+        data: { recipeID: recipeID },
+        success: function(response) {
+            if (response.trim() === "true") {
+                $(buttonID).addClass('disabled');
+                $(buttonID).attr('title', 'Done!');
+            }
+        }
+    });
+}
+
+$('#btn-like').click(function() {
+    if (!$(this).hasClass('disabled')) {
+        sendAjax('#btn-like', 'add-like.php');
+    }
+});
+
+$('#btn-favourite').click(function() {
+    if (!$(this).hasClass('disabled')) {
+        sendAjax('#btn-favourite', 'add-favourite.php');
+    }
+});
+
+$('#btn-report').click(function() {
+    if (!$(this).hasClass('disabled')) {
+        sendAjax('#btn-report', 'add-report.php');
+    }
+});
+</script>
+
+
 <?php endif; ?>
 
 <!-- Recipe image -->
@@ -346,7 +380,7 @@ if ($showButtons) {
     <p id="creatore-name"><?= htmlspecialchars($recipe['firstName']) ?></p>
   </div>
 
-</div><!-- /recipe-page -->
+</div>
 
 <!--  Comments section -->
 <section class="reviews" id="comments">
