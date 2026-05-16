@@ -4,7 +4,7 @@ session_start();
 $host = "localhost";
 $username = "root";
 $password = "root";
-$database = "nurish_db"; 
+$database = "nurish db"; 
 
 $conn = new mysqli($host, $username, $password, $database);
 
